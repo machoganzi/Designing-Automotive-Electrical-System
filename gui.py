@@ -9,7 +9,7 @@ class CarSimulatorGUI:
         self.window.title("Car Simulator")
 
         # 창의 크기를 더 크게 설정
-        self.window.geometry("900x700")
+        self.window.geometry("920x800")
 
         # 상단 상태 정보 (엔진, 속도, 차량 잠금 상태)
         self.create_top_status()
