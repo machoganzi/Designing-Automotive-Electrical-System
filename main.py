@@ -9,7 +9,7 @@ from gui import CarSimulatorGUI
 def execute_command_callback(command, car_controller):
     # 엔진 시동/정지
     if command == "ENGINE_BTN":
-        # 요구사항-1: 기어 P + 브레이크 밟음 
+        # 요구사항-1: 기어 P + 브레이크 밟음  (속력 0 조건은 기어가 P일 때는 속력이 0인 상황 밖에 없음)
         if car_controller.get_gear_status() == "P" and car_controller.get_brake_status() == "PRESS":
             car_controller.toggle_engine()
 
@@ -64,7 +64,8 @@ def execute_command_callback(command, car_controller):
             car_controller.open_left_door()
 
     elif command == "LEFT_DOOR_CLOSE":
-        car_controller.close_left_door()
+        if car_controller.get_left_door_lock() == "UNLOCKED":
+            car_controller.close_left_door()
 
     # 우측 문 제어 
     elif command == "RIGHT_DOOR_LOCK":
@@ -83,7 +84,8 @@ def execute_command_callback(command, car_controller):
             car_controller.open_right_door()
 
     elif command == "RIGHT_DOOR_CLOSE":
-        car_controller.close_right_door()
+        if car_controller.get_right_door_lock() == "UNLOCKED":
+            car_controller.close_right_door()
 
     # 트렁크 제어
     elif command == "TRUNK_OPEN":
