@@ -1,5 +1,4 @@
 import threading
-import time
 from car import Car
 from car_controller import CarController
 from gui import CarSimulatorGUI
