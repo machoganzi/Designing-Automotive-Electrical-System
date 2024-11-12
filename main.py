@@ -67,11 +67,35 @@ def execute_command_callback(command, car_controller):
     elif command == "LEFT_DOOR_CLOSE":
         car_controller.close_left_door()
 
+    # 우측 문 제어 
+    elif command == "RIGHT_DOOR_LOCK":
+        # 요구사항-6: 15km/h 미만 + 문 닫힘
+        if car_controller.get_speed() < 15 and car_controller.get_right_door_status() == "CLOSED":
+            car_controller.lock_right_door()
+
+    elif command == "RIGHT_DOOR_UNLOCK":
+        # 요구사항-6: 15km/h 미만
+        if car_controller.get_speed() < 15:
+            car_controller.unlock_right_door()
+
+    elif command == "RIGHT_DOOR_OPEN":
+        # 요구사항-5: 잠금해제 상태
+        if car_controller.get_right_door_lock() == "UNLOCKED":
+            car_controller.open_right_door()
+
+    elif command == "RIGHT_DOOR_CLOSE":
+        car_controller.close_right_door()
+
     # 트렁크 제어
     elif command == "TRUNK_OPEN":
         # 요구사항-7: 전체 잠금해제 상태
         if not car_controller.get_lock_status():
             car_controller.open_trunk()
+
+    elif command == "TRUNK_CLOSE":
+        # 요구사항-7: 전체 잠금해제 상태
+        if not car_controller.get_lock_status():
+            car_controller.close_trunk()
 
     # 사고 상황 처리
     elif command == "ACCIDENT":

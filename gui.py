@@ -108,10 +108,10 @@ class CarSimulatorGUI:
         self.speed_label.config(text=f"Speed: {self.car_controller.get_speed()} km/h")
 
         # 트렁크 상태 업데이트
-        if self.car_controller.get_trunk_status():
-            self.trunk_label.config(text="Trunk: Closed")
-        else:
+        if self.car_controller.get_trunk_status() == "TRUNK_OPENED":
             self.trunk_label.config(text="Trunk: Opened")
+        else:
+            self.trunk_label.config(text="Trunk: Closed")
 
         # 좌측 도어 상태 업데이트
         if self.car_controller.get_left_door_status() == "OPEN":
