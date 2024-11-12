@@ -21,7 +21,7 @@ def execute_command_callback(command, car_controller):
             car_controller.get_brake_status() == "RELEASE" and
             car_controller.get_left_door_status() == "CLOSED" and
             car_controller.get_right_door_status() == "CLOSED" and 
-            car_controller.get_trunk_status()):
+            car_controller.get_trunk_status() == "TRUNK_CLOSED"):
             car_controller.accelerate()
             # 요구사항-10.3: 속도 15km/h 이상 시 전체 자동 잠금
             if car_controller.get_speed() >= 15:
