@@ -39,7 +39,7 @@ def execute_command_callback(command, car_controller):
         # 요구사항-2: 모든 문이 닫힘 상태
         if (car_controller.get_left_door_status() == "CLOSED" and
             car_controller.get_right_door_status() == "CLOSED" and
-            car_controller.get_trunk_status()):
+            car_controller.get_trunk_status() == "TRUNK_CLOSED"):
             car_controller.lock_vehicle()
 
     elif command == "UNLOCK":
