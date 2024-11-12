@@ -3,7 +3,7 @@ class Car:
         self.__engine_on = engine_on  # True = ON / False = OFF
         self.__speed = speed  # km/h
         self.__lock = lock  # True = Locked / False = Unlocked
-        self.__trunk_status = trunk_status  # TRUNK_ClOSED / TRUNK_OPENED
+        self.__trunk_status = "TRUNK_CLOSED"  # TRUNK_ClOSED / TRUNK_OPENED
         self.__left_door_status = "CLOSED"  # "OPEN" or "CLOSED"
         self.__right_door_status = "CLOSED"  # "OPEN" or "CLOSED"
         self.__left_door_lock = "LOCKED"  # "LOCKED" or "UNLOCKED"
