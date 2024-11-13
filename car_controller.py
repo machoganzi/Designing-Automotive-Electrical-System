@@ -78,13 +78,13 @@ class CarController:
     # 기어 제어 메서드들
     def gear_p(self):
         self.car.set_gear("P")
-    
+
     def gear_r(self):
         self.car.set_gear("R")
-    
+
     def gear_n(self):
         self.car.set_gear("N")
-    
+
     def gear_d(self):
         self.car.set_gear("D")
 
@@ -97,7 +97,10 @@ class CarController:
 
     # 사고 상황 처리
     def accident(self):
-        self.car.set_accident(True)
+        self.car.set_accident()
+
+    def get_accident_status(self):
+        return self.car.accident_status
 
     # 기어 상태 확인
     def get_gear_status(self):
@@ -106,3 +109,13 @@ class CarController:
     # 브레이크 상태 확인
     def get_brake_status(self):
         return self.car.brake_status
+
+    # 오작동 알림
+    def on_alarm(self):
+        self.car.on_alarm()
+
+    def off_alarm(self):
+        self.car.off_alarm()
+
+    def get_alarm(self):
+        return self.car.alarm_status

@@ -1,10 +1,12 @@
 import threading
 import tkinter as tk
 
+
 class CarSimulatorGUI:
     def __init__(self, car_controller, execute_command_callback):
         self.car_controller = car_controller
         self.execute_command_callback = execute_command_callback  # execute_command 콜백
+        self.warning_image_id = None  # 경고 이미지는 처음에는 숨김 상태
         self.window = tk.Tk()
         self.window.title("Car Simulator")
 
@@ -35,7 +37,7 @@ class CarSimulatorGUI:
         self.speed_label = tk.Label(self.window, text="Speed: 0 km/h", font=("Helvetica", 24))
         self.speed_label.pack(padx=20, pady=10)
 
-           # 기어와 브레이크 상태 추가
+        # 기어와 브레이크 상태 추가
         self.gear_label = tk.Label(self.window, text="Gear: P", font=("Helvetica", 24))
         self.gear_label.pack(padx=20, pady=10)
 
@@ -45,6 +47,7 @@ class CarSimulatorGUI:
     def load_image(self):
         """이미지를 로드하여 캔버스에 표시"""
         self.car_photo = tk.PhotoImage(file="car.png")  # 이미지 경로로 설정
+        self.warning_photo = tk.PhotoImage(file="warning.png")  # 이미지 경로로 설정
 
         # 캔버스에 이미지 배치
         self.canvas = tk.Canvas(self.window, width=800, height=350)
@@ -137,15 +140,22 @@ class CarSimulatorGUI:
         else:
             self.right_door_lock_label.config(text="Right Door Lock: Unlocked")
 
-        # 기어 상태 업데이트 추가 
+        # 기어 상태 업데이트 추가
         self.gear_label.config(text=f"Gear: {self.car_controller.get_gear_status()}")
 
         # 브레이크 상태 업데이트 추가
         self.brake_label.config(text=f"Brake: {self.car_controller.get_brake_status()}")
 
         # 인디케이터 상태를 녹색으로 돌림
-       # self.indicator_canvas.itemconfig(self.indicator, fill="green")
-       # self.status_label.config(text="[Ready]", fg="green")
+        # self.indicator_canvas.itemconfig(self.indicator, fill="green")
+        # self.status_label.config(text="[Ready]", fg="green")
+        if self.car_controller.get_alarm():
+            if self.warning_image_id is None:  # 경고 이미지가 없는 경우 생성
+                self.warning_image_id = self.canvas.create_image(400, 70, image=self.warning_photo)
+        else:
+            if self.warning_image_id is not None:  # 경고 이미지가 있는 경우 삭제
+                self.canvas.delete(self.warning_image_id)
+                self.warning_image_id = None
 
         self.window.update()
 
