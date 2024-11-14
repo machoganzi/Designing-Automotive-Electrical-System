@@ -106,3 +106,13 @@ class CarController:
     # 브레이크 상태 확인
     def get_brake_status(self):
         return self.car.brake_status
+
+    #오작동 알림
+    def on_alarm(self):
+        self.car.on_alarm()
+
+    def off_alarm(self):
+        self.car.off_alarm()
+
+    def get_alarm(self):
+        return self.car.alarm_status

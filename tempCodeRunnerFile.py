@@ -1,1 +1,1 @@
-LOCK
+get_tru

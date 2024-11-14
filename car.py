@@ -1,9 +1,9 @@
 class Car:
-    def __init__(self, engine_on=False, speed=0, lock=True, trunk_status=True):
+    def __init__(self, engine_on=False, speed=0, lock=True, trunk_status=True, alarm_status=False):
         self.__engine_on = engine_on  # True = ON / False = OFF
         self.__speed = speed  # km/h
         self.__lock = lock  # True = Locked / False = Unlocked
-        self.__trunk_status = "TRUNK_CLOSED"  # TRUNK_ClOSED / TRUNK_OPENED
+        self.__trunk_status = trunk_status  # True = CLOSED // False = OPENED
         self.__left_door_status = "CLOSED"  # "OPEN" or "CLOSED"
         self.__right_door_status = "CLOSED"  # "OPEN" or "CLOSED"
         self.__left_door_lock = "LOCKED"  # "LOCKED" or "UNLOCKED"
@@ -11,6 +11,7 @@ class Car:
 
         self.__gear_status = "P" # R, N, D, P
         self.__brake_status = "RELEASE" #PRESS or RELEASE
+        self.__alarm = alarm_status
  
     # 엔진 상태 읽기
     @property
@@ -36,6 +37,11 @@ class Car:
     def brake_status(self):
         return self.__brake_status
     
+    # 알람 상태 읽기 
+    @property
+    def alarm_status(self):
+        return self.__alarm
+    
     def set_gear(self, gear):
         self.__gear_status = gear
 
@@ -46,6 +52,12 @@ class Car:
         self.unlock_vehicle()
         self.unlock_left_door()
         self.unlock_right_door()
+
+    def on_alarm(self):
+        self.__alarm = True
+
+    def off_alarm(self):
+        self.__alarm = False
 
     # 차량 전체 잠금/잠금 해제
     def lock_vehicle(self):
@@ -99,11 +111,11 @@ class Car:
 
     # 트렁크 열기
     def open_trunk(self):
-        self.__trunk_status = "TRUNK_OPENED"
+        self.__trunk_status = False
 
     # 트렁크 닫기
     def close_trunk(self):
-        self.__trunk_status = "TRUNK_CLOSED"
+        self.__trunk_status = True
 
     # 좌측 도어 열기/닫기
     def open_left_door(self):

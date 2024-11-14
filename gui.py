@@ -5,6 +5,7 @@ class CarSimulatorGUI:
     def __init__(self, car_controller, execute_command_callback):
         self.car_controller = car_controller
         self.execute_command_callback = execute_command_callback  # execute_command 콜백
+        self.warning_image_id = None  # 경고 이미지는 처음에는 숨김 상태
         self.window = tk.Tk()
         self.window.title("Car Simulator")
 
@@ -45,6 +46,7 @@ class CarSimulatorGUI:
     def load_image(self):
         """이미지를 로드하여 캔버스에 표시"""
         self.car_photo = tk.PhotoImage(file="car.png")  # 이미지 경로로 설정
+        self.warning_photo = tk.PhotoImage(file="warning.png")  # 이미지 경로로 설정
 
         # 캔버스에 이미지 배치
         self.canvas = tk.Canvas(self.window, width=800, height=350)
@@ -108,10 +110,10 @@ class CarSimulatorGUI:
         self.speed_label.config(text=f"Speed: {self.car_controller.get_speed()} km/h")
 
         # 트렁크 상태 업데이트
-        if self.car_controller.get_trunk_status() == "TRUNK_OPENED":
-            self.trunk_label.config(text="Trunk: Opened")
-        else:
+        if self.car_controller.get_trunk_status():
             self.trunk_label.config(text="Trunk: Closed")
+        else:
+            self.trunk_label.config(text="Trunk: Opened")
 
         # 좌측 도어 상태 업데이트
         if self.car_controller.get_left_door_status() == "OPEN":
@@ -146,7 +148,14 @@ class CarSimulatorGUI:
         # 인디케이터 상태를 녹색으로 돌림
        # self.indicator_canvas.itemconfig(self.indicator, fill="green")
        # self.status_label.config(text="[Ready]", fg="green")
-
+        if self.car_controller.get_alarm():
+            if self.warning_image_id is None:  # 경고 이미지가 없는 경우 생성
+                self.warning_image_id = self.canvas.create_image(400, 70, image=self.warning_photo)
+        else:
+            if self.warning_image_id is not None:  # 경고 이미지가 있는 경우 삭제
+                self.canvas.delete(self.warning_image_id)
+                self.warning_image_id = None
+                
         self.window.update()
 
     # 명령 실행 함수 (스레드를 사용해 명령어 처리)
