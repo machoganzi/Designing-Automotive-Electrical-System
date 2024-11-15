@@ -9,7 +9,7 @@ from gui import CarSimulatorGUI
 def execute_command_callback(command, car_controller):
     # 엔진 시동/정지
     if command == "ENGINE_BTN":
-        # 요구사항-1: 기어 P + 브레이크 밟음  (속력 0 조건은 기어가 P일 때는 속력이 0인 상황 밖에 없음)
+        # 요구사항-1: 기어 P + 브레이크 밟음
         if (car_controller.get_gear_status() == "P" and 
             car_controller.get_brake_status() == "PRESS" and
             car_controller.get_speed() == 0):
