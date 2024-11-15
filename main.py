@@ -10,7 +10,9 @@ def execute_command_callback(command, car_controller):
     # 엔진 시동/정지
     if command == "ENGINE_BTN":
         # 요구사항-1: 기어 P + 브레이크 밟음  (속력 0 조건은 기어가 P일 때는 속력이 0인 상황 밖에 없음)
-        if car_controller.get_gear_status() == "P" and car_controller.get_brake_status() == "PRESS":
+        if (car_controller.get_gear_status() == "P" and 
+            car_controller.get_brake_status() == "PRESS" and
+            car_controller.get_speed() == 0):
             car_controller.toggle_engine()
             car_controller.off_alarm()
 
@@ -171,13 +173,15 @@ def execute_command_callback(command, car_controller):
         # 1. 차량 정지
         while car_controller.get_speed() > 0:
             car_controller.brake_press()
-        # 2. 모든 문 잠금해제
+        # 2. 기어 P 변경
+        car_controller.gear_p()
+        # 3. 모든 문 잠금해제
         car_controller.unlock_vehicle()
         car_controller.unlock_left_door()
         car_controller.unlock_right_door()
-        # 3. 트렁크 열기
+        # 4. 트렁크 열기
         car_controller.open_trunk() 
-        # 4. 알람 표시
+        # 5. 알람 표시
         car_controller.on_alarm()
 
 # 파일 경로를 입력받는 함수
