@@ -9,25 +9,48 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10']
+
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
-    - name: Set up Python
-      uses: actions/setup-python@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
       with:
-        python-version: '3.x'
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Cache pip packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
     
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install pytest
+        pip install -r requirements.txt
+        pip install flake8 pytest
     
-    - name: Run tests
+    - name: Lint with flake8
       run: |
-        pytest
-
-    - name: Check code style
-      run: |
-        pip install flake8
+        # Python 구문 오류나 정의되지 않은 이름만 체크
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # 줄 길이 체크 등 모든 경고 표시
         flake8 . --count --max-line-length=120 --statistics
+    
+    - name: Test with pytest
+      run: |
+        pytest -v
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results-${{ matrix.python-version }}
+        path: |
+          test-results/
+          coverage/
