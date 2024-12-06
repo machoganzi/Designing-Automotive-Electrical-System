@@ -1,8 +1,3 @@
-다음으로 프로젝트의 README.md 파일을 상세하게 작성하겠습니다.
-
-README.md 파일을 생성하고 다음과 같은 내용을 포함하도록 하겠습니다:
-
-```markdown
 # 자동차 제어 시스템 (Car Control System)
 
 ## 프로젝트 소개
